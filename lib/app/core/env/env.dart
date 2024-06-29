@@ -11,7 +11,7 @@ abstract class Env {
   String? privateKey;
 
   static void setEnvironment() {
-         const environment = String.fromEnvironment('ENV', defaultValue: 'dev');
+    const environment = String.fromEnvironment('ENV', defaultValue: 'dev');
 
     switch (environment) {
       case 'dev':

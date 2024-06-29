@@ -5,7 +5,7 @@ import 'app/app_widget.dart';
 import 'app/core/env/env.dart';
 
 void main() {
-    Env.setEnvironment();
+  Env.setEnvironment();
 
   runApp(
     ModularApp(
