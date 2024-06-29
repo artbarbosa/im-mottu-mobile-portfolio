@@ -29,15 +29,23 @@ class _CharacterPageState extends State<CharacterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder(
+      appBar: AppBar(
+        title: const Text(
+          'Marvel Characters',
+        ),
+      ),
+      body: BlocBuilder<IGetCharactersListBloc, BaseState>(
         bloc: getCharactersListBloc,
         builder: (context, state) {
           if (state is SuccessState) {
             final list = state.data as List<CharacterModel>;
             return GridView.builder(
+              padding: const EdgeInsets.all(8.0),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.8,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.75,
               ),
               itemCount: list.length,
               itemBuilder: (context, index) {
@@ -47,46 +55,71 @@ class _CharacterPageState extends State<CharacterPage> {
                   model.thumbnail?.extension ?? "",
                 );
                 return Card(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(
-                                color: Colors.white,
-                              ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 5.0,
+                  child: InkWell(
+                    onTap: () {
+                      Modular.to.pushNamed(
+                        "/detail",
+                        arguments: model,
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(15.0),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.fill,
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 35,
-                        child: Padding(
+                        Container(
                           padding: const EdgeInsets.all(8.0),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(15.0),
+                            ),
+                            color: Colors.white,
+                          ),
                           child: Text(
                             model.name ?? "",
                             textAlign: TextAlign.center,
-                            maxLines: 3,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
+            );
+          } else if (state is LoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is ErrorState) {
+            return Center(
+              child: Text(state.message),
             );
           }
           return const SizedBox();

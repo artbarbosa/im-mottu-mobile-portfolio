@@ -25,6 +25,9 @@ class CharacterModule extends Module {
   @override
   void routes(r) {
     r.child('/', child: (context) => const CharacterPage());
-    r.child('/detail', child: (context) => const CharacterDetailPage());
+    r.child('/detail',
+        child: (context) => CharacterDetailPage(
+              model: r.args.data,
+            ));
   }
 }

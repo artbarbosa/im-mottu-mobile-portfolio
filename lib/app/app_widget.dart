@@ -20,7 +20,7 @@ class _AppWidgetState extends State<AppWidget> {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.redAccent,
+          seedColor: Colors.red,
         ),
       ),
     );
