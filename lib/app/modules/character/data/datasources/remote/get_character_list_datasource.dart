@@ -31,7 +31,9 @@ class GetCharactersListDataSource implements IGetCharactersListDataSource {
       final publicKey = Env.to?.publicKey ?? "";
       final hash = CryptoHelpers.generateMd5(ts + privateKey + publicKey);
 
-      final uri = Uri.parse('characters?ts=$ts&apikey=$publicKey&hash=$hash');
+      final uri = Uri.parse(
+        'characters?ts=$ts&apikey=$publicKey&hash=$hash&${params.toQueryString()}',
+      );
 
       final result = await http.get(uri);
       final response = result.getSuccessData as Response;

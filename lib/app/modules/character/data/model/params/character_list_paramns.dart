@@ -1,15 +1,16 @@
 class CharacterListParams {
-  final String? name;
+  final String? nameStartsWith;
   final String? orderBy;
 
   CharacterListParams({
-    this.name,
+    this.nameStartsWith,
     this.orderBy,
   });
 
   String toQueryString() {
     var params = <String, String>{};
-    params.putIfAbsent('name', () => name?.toString() ?? '');
+    params.putIfAbsent(
+        'nameStartsWith', () => nameStartsWith?.toString() ?? '');
     params.putIfAbsent('orderBy', () => orderBy?.toString() ?? '');
 
     return params.entries
