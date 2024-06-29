@@ -1,8 +1,12 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:mottu_marvel/app/modules/character/data/datasources/get_character_list_datasource.dart';
+import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
 
 class MockGetCharactersListDataSource extends Mock
     implements IGetCharactersListDataSource {}
+
+class MockGetCharactersListRepository extends Mock
+    implements IGetCharactersListRepository {}
 
 const Map<String, dynamic> characterListMock = {
   "code": 200,

@@ -24,6 +24,9 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
       appBar: AppBar(
         title: Text(
           widget.model.name ?? 'Character Details',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -43,32 +46,54 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
                 height: 300,
                 color: Colors.grey[300],
                 child: const Center(
-                  child: Icon(Icons.error, size: 50),
+                  child: Icon(
+                    Icons.error,
+                    size: 50,
+                  ),
                 ),
               ),
               fit: BoxFit.cover,
               width: double.infinity,
               height: 300,
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                widget.model.name ?? 'No Name',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                widget.model.description?.isNotEmpty == true
-                    ? widget.model.description!
-                    : 'No description available.',
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+              margin: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.model.name ?? 'No Name',
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    widget.model.description?.isNotEmpty == true
+                        ? widget.model.description!
+                        : 'No description available.',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
           ],
