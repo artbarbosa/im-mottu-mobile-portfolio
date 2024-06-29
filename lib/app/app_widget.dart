@@ -17,6 +17,12 @@ class _AppWidgetState extends State<AppWidget> {
       title: 'Marvel',
       debugShowCheckedModeBanner: false,
       routerConfig: Modular.routerConfig,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.redAccent,
+        ),
+      ),
     );
   }
 }
