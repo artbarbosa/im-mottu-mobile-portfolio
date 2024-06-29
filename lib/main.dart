@@ -3,9 +3,13 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'app/app_widget.dart';
 import 'app/core/env/env.dart';
+import 'app/core/services/hive/hive_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Env.setEnvironment();
+
+  await HiveService.initHive();
 
   runApp(
     ModularApp(
