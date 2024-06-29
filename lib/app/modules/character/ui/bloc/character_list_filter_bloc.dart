@@ -6,82 +6,48 @@ import '../../data/model/params/character_list_paramns.dart';
 abstract class ICharacterListFilterBloc extends Cubit<BaseState> {
   ICharacterListFilterBloc() : super(const EmptyState());
 
-  String? tempName;
-  String? tempOrderBy;
+  String? tempNameStartsWith;
+  String tempOrderBy = "name";
 
-  String? name;
-  String? orderBy;
+  String? nameStartsWith;
+  String orderBy = "name";
 
   CharacterListParams createFiltersParams();
 
-  void updateNameFilter({required String value});
+  void updateNameStartWithFilter({required String? value});
   void updateOrderByFilter({required String value});
 
-  void resetFilters();
   void applyFilters();
-  void setFilters();
 }
 
 class CharacterListFilterBloc extends ICharacterListFilterBloc {
   CharacterListFilterBloc() : super();
 
   @override
-  CharacterListParams createFiltersParams() {
-    return CharacterListParams(
-      orderBy: orderBy,
-      name: name,
-    );
-  }
+  CharacterListParams createFiltersParams() => CharacterListParams(
+        orderBy: orderBy,
+        nameStartsWith: nameStartsWith,
+      );
 
-  void _emitCurrentState() {
-    emit(ChangeState({
-      "orderBy": orderBy,
-      "name": name,
-    }));
-  }
+  void _emitCurrentState() => emit(
+        ChangeState({
+          "nameStartsWith": nameStartsWith,
+          "orderBy": orderBy,
+        }),
+      );
 
   @override
-  void updateNameFilter({required String value}) {
-    if (tempName == value) {
-      tempName = null;
-    } else {
-      tempName = value;
-    }
-    _emitCurrentState();
-  }
+  void updateNameStartWithFilter({required String? value}) =>
+      tempNameStartsWith = value;
 
   @override
-  void updateOrderByFilter({required String value}) {
-    if (tempOrderBy == value) {
-      tempOrderBy = null;
-    } else {
-      tempOrderBy = value;
-    }
-    _emitCurrentState();
-  }
-
-  @override
-  void resetFilters() {
-    tempOrderBy = null;
-    tempName = null;
-
-    _emitCurrentState();
-  }
+  void updateOrderByFilter({required String value}) => tempOrderBy = value;
 
   @override
   void applyFilters() {
     orderBy = tempOrderBy;
-    name = tempName;
+    nameStartsWith = tempNameStartsWith;
 
-    emit(SuccessState({
-      "name": name,
-      "orderBy": orderBy,
-    }));
-  }
-
-  @override
-  void setFilters() {
-    tempName = name;
-    tempOrderBy = orderBy;
+    _emitCurrentState();
   }
 }

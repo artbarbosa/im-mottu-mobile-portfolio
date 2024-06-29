@@ -25,28 +25,39 @@ class GetCharactersListRepository implements IGetCharactersListRepository {
     required CharacterListParams params,
   }) async {
     try {
-      final localCharacters = localDataSource.getAllCharacter();
+      if (params.nameStartsWith != null || params.orderBy != "name") {
+        final remoteResult = await _fetchFromRemote(params);
+        if (remoteResult is ResultSuccess) {
+          return remoteResult;
+        }
+      }
+
+      final localCharacters = localDataSource.getAllCharacter(params: params);
       if (localCharacters.isNotEmpty) {
         return ResultSuccess(localCharacters);
       }
 
-      final remoteResult = await remoteDataSource.getCharactersList(
-        params: params,
-      );
-
-      if (remoteResult is ResultSuccess) {
-        final listModel = (remoteResult.getSuccessData as List)
-            .map((e) => CharacterModel.fromJson(e as Map<String, dynamic>))
-            .toList();
-        for (var character in listModel) {
-          await localDataSource.addCharacter(characterModel: character);
-        }
-        return ResultSuccess(listModel);
-      } else {
-        return ResultError(BaseError('${remoteResult.getErrorData}'));
-      }
+      return await _fetchFromRemote(params);
     } catch (e) {
       return ResultError(BaseError(e.toString()));
+    }
+  }
+
+  Future<Result<List<CharacterModel>>> _fetchFromRemote(
+      CharacterListParams params) async {
+    final remoteResult =
+        await remoteDataSource.getCharactersList(params: params);
+
+    if (remoteResult is ResultSuccess) {
+      final listModel = (remoteResult.getSuccessData as List)
+          .map((e) => CharacterModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      for (var character in listModel) {
+        await localDataSource.addCharacter(characterModel: character);
+      }
+      return ResultSuccess(listModel);
+    } else {
+      return ResultError(BaseError('${remoteResult.getErrorData}'));
     }
   }
 }
