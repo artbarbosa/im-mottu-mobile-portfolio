@@ -1,9 +1,17 @@
 import 'package:mocktail/mocktail.dart';
+import 'package:mottu_marvel/app/modules/character/data/datasources/local/get_character_list_local_datasource.dart';
 import 'package:mottu_marvel/app/modules/character/data/datasources/remote/get_character_list_datasource.dart';
+import 'package:mottu_marvel/app/modules/character/data/model/character_model.dart';
 import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
 
 class MockGetCharactersListDataSource extends Mock
     implements IGetCharactersListDataSource {}
+
+class MockGetCharactersListLocalDataSource extends Mock
+    implements IGetCharactersListLocalDataSource {
+  @override
+  addCharacter({required CharacterModel characterModel}) async {}
+}
 
 class MockGetCharactersListRepository extends Mock
     implements IGetCharactersListRepository {}
