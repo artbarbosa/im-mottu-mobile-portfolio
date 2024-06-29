@@ -1,5 +1,13 @@
-class UrlsModel {
+import 'package:hive/hive.dart';
+
+part 'urls_model.g.dart';
+
+@HiveType(typeId: 5)
+class UrlsModel extends HiveObject {
+  @HiveField(0)
   String? type;
+
+  @HiveField(1)
   String? url;
 
   UrlsModel({this.type, this.url});

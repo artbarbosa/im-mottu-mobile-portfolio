@@ -1,18 +1,44 @@
-import 'comic_model.dart';
-import 'thumbnail_model.dart';
-import 'url_model.dart';
+import 'package:hive/hive.dart';
 
-class CharacterModel {
+import 'comics_model.dart';
+import 'thumbnail_model.dart';
+import 'urls_model.dart';
+
+part 'character_model.g.dart';
+
+@HiveType(typeId: 1)
+class CharacterModel extends HiveObject {
+  @HiveField(0)
   int? id;
+
+  @HiveField(1)
   String? name;
+
+  @HiveField(2)
   String? description;
+
+  @HiveField(3)
   String? modified;
+
+  @HiveField(4)
   ThumbnailModel? thumbnail;
+
+  @HiveField(5)
   String? resourceURI;
+
+  @HiveField(6)
   ComicsModel? comics;
+
+  @HiveField(7)
   ComicsModel? series;
+
+  @HiveField(8)
   ComicsModel? stories;
+
+  @HiveField(9)
   ComicsModel? events;
+
+  @HiveField(10)
   List<UrlsModel>? urls;
 
   CharacterModel({
