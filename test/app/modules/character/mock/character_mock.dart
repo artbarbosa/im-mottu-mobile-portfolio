@@ -1,5 +1,5 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:mottu_marvel/app/modules/character/data/datasources/get_character_list_datasource.dart';
+import 'package:mottu_marvel/app/modules/character/data/datasources/remote/get_character_list_datasource.dart';
 import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
 
 class MockGetCharactersListDataSource extends Mock
