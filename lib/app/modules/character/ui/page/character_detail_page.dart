@@ -38,39 +38,45 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CharacterImageWidget(model: widget.model),
-            CharacterInfoWidget(model: widget.model),
-            BlocBuilder<IGetCharactersAssociatedBloc, BaseState>(
-              bloc: getCharactersAssociatedBloc,
-              builder: (context, state) {
-                if (state is SuccessState) {
-                  final characters = state.data as List<CharacterModel>;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          "Relacionados:",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      CharacterGridComponent(characters: characters),
-                    ],
-                  );
-                }
-                return const SizedBox();
-              },
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: CharacterImageWidget(model: widget.model),
+          ),
+          SliverToBoxAdapter(
+            child: CharacterInfoWidget(model: widget.model),
+          ),
+          const SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverToBoxAdapter(
+              child: Text(
+                "Relacionados:",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+          BlocBuilder<IGetCharactersAssociatedBloc, BaseState>(
+            bloc: getCharactersAssociatedBloc,
+            builder: (context, state) {
+              if (state is SuccessState) {
+                final characters = state.data as List<CharacterModel>;
+                return CharacterGridComponent(
+                  characters: characters,
+                );
+              } else if (state is LoadingState) {
+                return const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              return const SliverToBoxAdapter();
+            },
+          ),
+        ],
       ),
     );
   }

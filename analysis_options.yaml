@@ -5,7 +5,6 @@ linter:
     - prefer_relative_imports
     - file_names
     - always_declare_return_types
-    - always_put_control_body_on_new_line
 
 analyzer:
   exclude:

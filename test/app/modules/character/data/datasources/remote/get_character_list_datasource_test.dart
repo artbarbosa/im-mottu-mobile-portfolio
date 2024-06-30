@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:mottu_marvel/app/core/errors/base_error.dart';
 import 'package:mottu_marvel/app/core/result_wrapper/result_wrapper.dart';
 import 'package:mottu_marvel/app/modules/character/data/datasources/remote/get_character_list_datasource.dart';
-import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_paramns.dart';
+import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_params.dart';
 
 import '../../../../../core/mock/core_mock.dart';
 import '../../../mock/character_mock.dart';

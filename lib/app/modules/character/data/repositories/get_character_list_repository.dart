@@ -3,7 +3,7 @@ import '../../../../core/result_wrapper/result_wrapper.dart';
 import '../datasources/local/get_character_list_local_datasource.dart';
 import '../datasources/remote/get_character_list_datasource.dart';
 import '../model/character_model.dart';
-import '../model/params/character_list_paramns.dart';
+import '../model/params/character_list_params.dart';
 
 abstract class IGetCharactersListRepository {
   Future<Result<List<CharacterModel>>> getCharactersList({
@@ -25,19 +25,17 @@ class GetCharactersListRepository implements IGetCharactersListRepository {
     required CharacterListParams params,
   }) async {
     try {
-      if (params.nameStartsWith != null || params.orderBy != "name") {
-        final remoteResult = await _fetchFromRemote(params);
-        if (remoteResult is ResultSuccess) {
+      final remoteResult = await _fetchFromRemote(params);
+      if (remoteResult is ResultSuccess) {
+        return remoteResult;
+      } else {
+        final localCharacters = localDataSource.getAllCharacter(params: params);
+        if (localCharacters.isNotEmpty) {
+          return ResultSuccess(localCharacters);
+        } else {
           return remoteResult;
         }
       }
-
-      final localCharacters = localDataSource.getAllCharacter(params: params);
-      if (localCharacters.isNotEmpty) {
-        return ResultSuccess(localCharacters);
-      }
-
-      return await _fetchFromRemote(params);
     } catch (e) {
       return ResultError(BaseError(e.toString()));
     }
@@ -45,8 +43,9 @@ class GetCharactersListRepository implements IGetCharactersListRepository {
 
   Future<Result<List<CharacterModel>>> _fetchFromRemote(
       CharacterListParams params) async {
-    final remoteResult =
-        await remoteDataSource.getCharactersList(params: params);
+    final remoteResult = await remoteDataSource.getCharactersList(
+      params: params,
+    );
 
     if (remoteResult is ResultSuccess) {
       final listModel = (remoteResult.getSuccessData as List)

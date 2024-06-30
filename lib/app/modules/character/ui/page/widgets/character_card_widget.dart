@@ -24,7 +24,7 @@ class CharacterCardWidget extends StatelessWidget {
       elevation: 5.0,
       child: InkWell(
         onTap: () {
-          Modular.to.pushNamed("/detail", arguments: model);
+          Modular.to.pushNamed("/character/detail", arguments: model);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

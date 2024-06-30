@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../../model/character_model.dart';
-import '../../model/params/character_list_paramns.dart';
+import '../../model/params/character_list_params.dart';
 
 abstract class IGetCharactersListLocalDataSource {
   CharacterModel? getCharacterModel(int id);
