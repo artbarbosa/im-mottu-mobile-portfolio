@@ -8,7 +8,6 @@ import '../../../modules/character/data/model/character_model.dart';
 import '../../../modules/character/data/model/comics_model.dart';
 import '../../../modules/character/data/model/items_model.dart';
 import '../../../modules/character/data/model/thumbnail_model.dart';
-import '../../../modules/character/data/model/urls_model.dart';
 
 class HiveService {
   static Future<void> initHive() async {
@@ -19,8 +18,7 @@ class HiveService {
       ..registerAdapter(CharacterModelAdapter())
       ..registerAdapter(ComicsModelAdapter())
       ..registerAdapter(ItemsModelAdapter())
-      ..registerAdapter(ThumbnailModelAdapter())
-      ..registerAdapter(UrlsModelAdapter());
+      ..registerAdapter(ThumbnailModelAdapter());
 
     await GetCharactersListLocalDataSource.init();
   }
