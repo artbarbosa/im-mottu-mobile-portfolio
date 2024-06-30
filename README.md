@@ -7,10 +7,8 @@
 - [x]  NÍVEL 1
 - [x]  NÍVEL 2
 - [x]  NÍVEL 3
-- [ ]  Utilizar Getx.
 - [x]  Configurar Firebase crashlytics.
-- [x]  Criar channel em kotlin, capturar a mudança de conexão, e mostrar uma mensagem de offline no flutter.
-- [ ]  
+- [x]  Criar channel em kotlin, capturar a mudança de conexão, e mostrar uma mensagem de offline no flutter. 
 
 > *Este teste está separado em 3 níveis de dificuldade. Você pode desenvolver seu teste APP atendendo apenas a um nível, ou a todos.*
 >
