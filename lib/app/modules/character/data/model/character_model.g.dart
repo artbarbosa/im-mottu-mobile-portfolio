@@ -23,7 +23,8 @@ class CharacterModelAdapter extends TypeAdapter<CharacterModel> {
       modified: fields[3] as String?,
       thumbnail: fields[4] as ThumbnailModel?,
       series: fields[5] as ComicsModel?,
-    )..charactersAssociated = (fields[6] as List?)?.cast<CharacterModel>();
+      charactersAssociated: (fields[6] as List?)?.cast<CharacterModel>(),
+    );
   }
 
   @override
