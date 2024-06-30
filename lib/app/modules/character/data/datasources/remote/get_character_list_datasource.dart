@@ -8,7 +8,7 @@ import '../../../../../core/helpers/crypto_helpers.dart';
 import '../../../../../core/helpers/map_extension.dart';
 import '../../../../../core/result_wrapper/result_wrapper.dart';
 import '../../../../../core/services/http_client/http_client_service_interface.dart';
-import '../../model/params/character_list_paramns.dart';
+import '../../model/params/character_list_params.dart';
 
 abstract class IGetCharactersListDataSource {
   Future<Result> getCharactersList({
