@@ -131,9 +131,9 @@ class _CharacterPageState extends State<CharacterPage> {
                     ),
                   );
                 } else if (state is ErrorState) {
-                  return SliverToBoxAdapter(
+                  return const SliverToBoxAdapter(
                     child: Center(
-                      child: Text(state.message),
+                      child: Text("No data found "),
                     ),
                   );
                 }
@@ -144,7 +144,7 @@ class _CharacterPageState extends State<CharacterPage> {
                 if (list.isEmpty) {
                   return const SliverToBoxAdapter(
                     child: Center(
-                      child: Text("No data found "),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 }
