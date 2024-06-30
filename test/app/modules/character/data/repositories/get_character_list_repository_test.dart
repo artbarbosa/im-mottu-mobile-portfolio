@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:mottu_marvel/app/core/errors/base_error.dart';
 import 'package:mottu_marvel/app/core/result_wrapper/result_wrapper.dart';
 import 'package:mottu_marvel/app/modules/character/data/model/character_model.dart';
-import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_paramns.dart';
+import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_params.dart';
 import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
 
 import '../../mock/character_mock.dart';

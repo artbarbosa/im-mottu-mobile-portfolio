@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mottu_marvel/app/core/result_wrapper/result_wrapper.dart';
 import 'package:mottu_marvel/app/core/states/base_page_state.dart';
-import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_paramns.dart';
+import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_params.dart';
 import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
 import 'package:mottu_marvel/app/modules/character/ui/bloc/get_characters_list_bloc.dart';
 
