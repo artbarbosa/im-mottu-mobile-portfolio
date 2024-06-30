@@ -39,7 +39,7 @@ void main() {
       final remoteResult = ResultSuccess(remoteCharacters);
 
       when(() => mockRemoteDataSource.getCharactersList(params: params))
-          .thenAnswer((_) => Future.value(remoteResult));
+          .thenAnswer((_) async => remoteResult);
 
       final result = await repository.getCharactersList(params: params);
 
