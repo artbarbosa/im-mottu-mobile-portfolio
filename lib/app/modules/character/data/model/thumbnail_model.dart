@@ -10,7 +10,10 @@ class ThumbnailModel extends HiveObject {
   @HiveField(1)
   String? extension;
 
-  ThumbnailModel({this.path, this.extension});
+  ThumbnailModel({
+    this.path,
+    this.extension,
+  });
 
   ThumbnailModel.fromJson(Map<String, dynamic> json) {
     path = json['path'];

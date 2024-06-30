@@ -22,19 +22,14 @@ class CharacterModelAdapter extends TypeAdapter<CharacterModel> {
       description: fields[2] as String?,
       modified: fields[3] as String?,
       thumbnail: fields[4] as ThumbnailModel?,
-      resourceURI: fields[5] as String?,
-      comics: fields[6] as ComicsModel?,
-      series: fields[7] as ComicsModel?,
-      stories: fields[8] as ComicsModel?,
-      events: fields[9] as ComicsModel?,
-      urls: (fields[10] as List?)?.cast<UrlsModel>(),
-    );
+      series: fields[5] as ComicsModel?,
+    )..charactersAssociated = (fields[6] as List?)?.cast<CharacterModel>();
   }
 
   @override
   void write(BinaryWriter writer, CharacterModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -46,17 +41,9 @@ class CharacterModelAdapter extends TypeAdapter<CharacterModel> {
       ..writeByte(4)
       ..write(obj.thumbnail)
       ..writeByte(5)
-      ..write(obj.resourceURI)
-      ..writeByte(6)
-      ..write(obj.comics)
-      ..writeByte(7)
       ..write(obj.series)
-      ..writeByte(8)
-      ..write(obj.stories)
-      ..writeByte(9)
-      ..write(obj.events)
-      ..writeByte(10)
-      ..write(obj.urls);
+      ..writeByte(6)
+      ..write(obj.charactersAssociated);
   }
 
   @override

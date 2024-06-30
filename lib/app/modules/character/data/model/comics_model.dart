@@ -18,7 +18,12 @@ class ComicsModel extends HiveObject {
   @HiveField(3)
   int? returned;
 
-  ComicsModel({this.available, this.collectionURI, this.items, this.returned});
+  ComicsModel({
+    this.available,
+    this.collectionURI,
+    this.items,
+    this.returned,
+  });
 
   ComicsModel.fromJson(Map<String, dynamic> json) {
     available = json['available'];
