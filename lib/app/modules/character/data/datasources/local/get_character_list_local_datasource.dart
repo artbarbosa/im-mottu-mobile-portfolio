@@ -4,7 +4,7 @@ import '../../model/character_model.dart';
 import '../../model/params/character_list_paramns.dart';
 
 abstract class IGetCharactersListLocalDataSource {
-  CharacterModel? getCharacterModel(String sku);
+  CharacterModel? getCharacterModel(int id);
   Future<void> addCharacter({required CharacterModel characterModel});
   List<CharacterModel> getAllCharacter({
     required CharacterListParams params,
@@ -21,16 +21,11 @@ class GetCharactersListLocalDataSource
 
   @override
   Future<void> addCharacter({required CharacterModel characterModel}) async {
-    for (var existingCharacter in characterBox.values) {
-      if (existingCharacter.id == characterModel.id) {
-        return;
-      }
-    }
-    await characterBox.add(characterModel);
+    await characterBox.put(characterModel.id, characterModel);
   }
 
   @override
-  CharacterModel? getCharacterModel(String id) => characterBox.get(id);
+  CharacterModel? getCharacterModel(int id) => characterBox.get(id);
 
   @override
   List<CharacterModel> getAllCharacter({
