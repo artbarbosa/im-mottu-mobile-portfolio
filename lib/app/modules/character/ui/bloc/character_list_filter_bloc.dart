@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/states/base_page_state.dart';
-import '../../data/model/params/character_list_paramns.dart';
+import '../../data/model/params/character_list_params.dart';
 
 abstract class ICharacterListFilterBloc extends Cubit<BaseState> {
   ICharacterListFilterBloc() : super(const EmptyState());
