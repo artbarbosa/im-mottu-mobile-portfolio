@@ -8,17 +8,16 @@ import 'package:mottu_marvel/app/modules/character/data/repositories/get_charact
 
 import '../../mock/character_mock.dart';
 
+
 void main() {
   late GetCharactersListRepository repository;
   late MockGetCharactersListDataSource mockRemoteDataSource;
   late MockGetCharactersListLocalDataSource mockLocalDataSource;
 
   setUp(() {
-    registerFallbackValue(CharacterListParams());
-    registerFallbackValue(CharacterModel());
-  });
+    registerFallbackValue(CharacterListParams(nameStartsWith: '', orderBy: ''));
+    registerFallbackValue(CharacterModel(id: 0, name: ''));
 
-  setUp(() {
     mockRemoteDataSource = MockGetCharactersListDataSource();
     mockLocalDataSource = MockGetCharactersListLocalDataSource();
     repository = GetCharactersListRepository(
@@ -43,8 +42,11 @@ void main() {
 
       final result = await repository.getCharactersList(params: params);
 
+      expect(result, isA<ResultSuccess<List<CharacterModel>>>());
       expect(result.getSuccessData.first.id, 1);
+      expect(result.getSuccessData.first.name, 'Iron Man');
     });
+
 
     test('Fetch from Local', () async {
       final params = CharacterListParams(
@@ -55,18 +57,19 @@ void main() {
         CharacterModel(id: 3, name: 'Thor'),
       ];
 
+      when(() => mockRemoteDataSource.getCharactersList(params: params))
+          .thenAnswer(
+              (_) async => ResultError(BaseError('Failed to fetch data')));
+
+
       when(() => mockLocalDataSource.getAllCharacter(params: params))
           .thenReturn(localCharacters);
 
       final result = await repository.getCharactersList(params: params);
 
       expect(result, isA<ResultSuccess<List<CharacterModel>>>());
-
-      verifyNever(
-        () => mockRemoteDataSource.getCharactersList(
-          params: any(named: 'params'),
-        ),
-      );
+      expect(result.getSuccessData.first.id, 3);
+      expect(result.getSuccessData.first.name, 'Thor');
     });
 
     test('Fetch from Remote Error', () async {
@@ -78,9 +81,13 @@ void main() {
       when(() => mockRemoteDataSource.getCharactersList(params: params))
           .thenAnswer((_) => Future.value(remoteResult));
 
+      when(() => mockLocalDataSource.getAllCharacter(params: params))
+          .thenReturn([]);
+
       final result = await repository.getCharactersList(params: params);
 
       expect(result, isA<ResultError<List<CharacterModel>>>());
+      expect(result.getErrorData.message, error);
     });
 
     test('Error Handling', () async {
@@ -94,6 +101,7 @@ void main() {
       final result = await repository.getCharactersList(params: params);
 
       expect(result, isA<ResultError<List<CharacterModel>>>());
+      expect(result.getErrorData.message, 'Exception: Error occurred');
     });
   });
 }
