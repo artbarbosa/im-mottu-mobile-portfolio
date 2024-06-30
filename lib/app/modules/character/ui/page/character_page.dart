@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../../../core/helpers/connectivy_channel.dart';
 import '../../../../core/states/base_page_state.dart';
 import '../../data/model/character_model.dart';
 import '../bloc/character_list_filter_bloc.dart';
@@ -32,6 +33,23 @@ class _CharacterPageState extends State<CharacterPage> {
     _fetchCharacters();
 
     scrollController.addListener(_onScroll);
+
+    ConnectivityChannel.connectionStatusStream.listen((isConnected) {
+      if (!isConnected) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('You are offline'),
+            actions: [
+              TextButton(
+                onPressed: () => Modular.to.pop(),
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   Future<void> _fetchCharacters({bool isLoadMore = false}) async {
@@ -95,9 +113,12 @@ class _CharacterPageState extends State<CharacterPage> {
         child: CustomScrollView(
           controller: scrollController,
           slivers: [
-            SliverToBoxAdapter(
-              child: SearchTextFieldWidget(
-                characterListFilterBloc: characterListFilterBloc,
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              sliver: SliverToBoxAdapter(
+                child: SearchTextFieldWidget(
+                  characterListFilterBloc: characterListFilterBloc,
+                ),
               ),
             ),
             BlocBuilder<IGetCharactersListBloc, BaseState>(
@@ -119,6 +140,13 @@ class _CharacterPageState extends State<CharacterPage> {
                 List<CharacterModel> list = [];
                 if (state is SuccessState) {
                   list = state.data as List<CharacterModel>;
+                }
+                if (list.isEmpty) {
+                  return const SliverToBoxAdapter(
+                    child: Center(
+                      child: Text("No data found "),
+                    ),
+                  );
                 }
                 return CharacterGridComponent(
                   characters: list,
