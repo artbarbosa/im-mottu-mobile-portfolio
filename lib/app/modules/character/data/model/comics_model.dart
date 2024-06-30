@@ -1,12 +1,29 @@
+import 'package:hive/hive.dart';
+
 import 'items_model.dart';
 
-class ComicsModel {
+part 'comics_model.g.dart';
+
+@HiveType(typeId: 2)
+class ComicsModel extends HiveObject {
+  @HiveField(0)
   int? available;
+
+  @HiveField(1)
   String? collectionURI;
+
+  @HiveField(2)
   List<ItemsModel>? items;
+
+  @HiveField(3)
   int? returned;
 
-  ComicsModel({this.available, this.collectionURI, this.items, this.returned});
+  ComicsModel({
+    this.available,
+    this.collectionURI,
+    this.items,
+    this.returned,
+  });
 
   ComicsModel.fromJson(Map<String, dynamic> json) {
     available = json['available'];

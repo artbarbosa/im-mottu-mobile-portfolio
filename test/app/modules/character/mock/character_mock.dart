@@ -1,12 +1,28 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:mottu_marvel/app/modules/character/data/datasources/get_character_list_datasource.dart';
+import 'package:mottu_marvel/app/modules/character/data/datasources/local/get_character_list_local_datasource.dart';
+import 'package:mottu_marvel/app/modules/character/data/datasources/remote/get_character_list_datasource.dart';
+import 'package:mottu_marvel/app/modules/character/data/datasources/remote/get_characters_associated_datasouce.dart';
+import 'package:mottu_marvel/app/modules/character/data/model/character_model.dart';
 import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
+import 'package:mottu_marvel/app/modules/character/data/repositories/get_characters_associated_repository.dart';
 
 class MockGetCharactersListDataSource extends Mock
     implements IGetCharactersListDataSource {}
 
+class MockGetCharactersAssociatedDataSource extends Mock
+    implements IGetCharactersAssociatedDataSource {}
+
+class MockGetCharactersListLocalDataSource extends Mock
+    implements IGetCharactersListLocalDataSource {
+  @override
+  Future<void> addCharacter({required CharacterModel characterModel}) async {}
+}
+
 class MockGetCharactersListRepository extends Mock
     implements IGetCharactersListRepository {}
+
+class MockGetCharactersAssociatedRepository extends Mock
+    implements IGetCharactersAssociatedRepository {}
 
 const Map<String, dynamic> characterListMock = {
   "code": 200,

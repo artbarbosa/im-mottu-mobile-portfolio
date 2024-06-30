@@ -39,7 +39,7 @@ class ErrorState implements BaseState {
 class TypedErrorState<T> extends ErrorState {
   final T error;
 
-  const TypedErrorState(message, this.error) : super(message);
+  const TypedErrorState(super.message, this.error);
 
   @override
   List<Object?> get props => [message, error];

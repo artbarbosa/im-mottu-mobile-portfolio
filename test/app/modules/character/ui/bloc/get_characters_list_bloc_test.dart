@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mottu_marvel/app/core/result_wrapper/result_wrapper.dart';
 import 'package:mottu_marvel/app/core/states/base_page_state.dart';
+import 'package:mottu_marvel/app/modules/character/data/model/params/character_list_paramns.dart';
 import 'package:mottu_marvel/app/modules/character/data/repositories/get_character_list_repository.dart';
 import 'package:mottu_marvel/app/modules/character/ui/bloc/get_characters_list_bloc.dart';
 
@@ -12,6 +13,7 @@ void main() {
   group('GetCharactersListBloc Tests', () {
     late IGetCharactersListRepository mockRepository;
     late GetCharactersListBloc getCharactersListBloc;
+    final params = CharacterListParams(nameStartsWith: 'Iron', orderBy: 'name');
 
     setUp(() {
       mockRepository = MockGetCharactersListRepository();
@@ -29,22 +31,22 @@ void main() {
     blocTest<GetCharactersListBloc, BaseState>(
       'emits [LoadingState, SuccessState] when getCharactersList is successful',
       build: () {
-        when(() => mockRepository.getCharactersList())
+        when(() => mockRepository.getCharactersList(params: params))
             .thenAnswer((_) async => ResultSuccess([]));
         return getCharactersListBloc;
       },
-      act: (bloc) => bloc.getCharactersList(),
+      act: (bloc) => bloc.getCharactersList(params: params),
       expect: () => [const LoadingState(), isA<SuccessState>()],
     );
 
     blocTest<GetCharactersListBloc, BaseState>(
       'emits [LoadingState, ErrorState] when getCharactersList fails',
       build: () {
-        when(() => mockRepository.getCharactersList())
+        when(() => mockRepository.getCharactersList(params: params))
             .thenThrow(Exception('Failed to load data'));
         return getCharactersListBloc;
       },
-      act: (bloc) => bloc.getCharactersList(),
+      act: (bloc) => bloc.getCharactersList(params: params),
       expect: () => [const LoadingState(), isA<ErrorState>()],
     );
   });

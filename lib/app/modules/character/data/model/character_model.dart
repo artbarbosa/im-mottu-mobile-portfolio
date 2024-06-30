@@ -1,19 +1,32 @@
-import 'comic_model.dart';
-import 'thumbnail_model.dart';
-import 'url_model.dart';
+import 'package:hive/hive.dart';
 
-class CharacterModel {
+import 'comics_model.dart';
+import 'thumbnail_model.dart';
+
+part 'character_model.g.dart';
+
+@HiveType(typeId: 1)
+class CharacterModel extends HiveObject {
+  @HiveField(0)
   int? id;
+
+  @HiveField(1)
   String? name;
+
+  @HiveField(2)
   String? description;
+
+  @HiveField(3)
   String? modified;
+
+  @HiveField(4)
   ThumbnailModel? thumbnail;
-  String? resourceURI;
-  ComicsModel? comics;
+
+  @HiveField(5)
   ComicsModel? series;
-  ComicsModel? stories;
-  ComicsModel? events;
-  List<UrlsModel>? urls;
+
+  @HiveField(6)
+  List<CharacterModel>? charactersAssociated;
 
   CharacterModel({
     this.id,
@@ -21,12 +34,8 @@ class CharacterModel {
     this.description,
     this.modified,
     this.thumbnail,
-    this.resourceURI,
-    this.comics,
     this.series,
-    this.stories,
-    this.events,
-    this.urls,
+    this.charactersAssociated,
   });
 
   CharacterModel.fromJson(Map<String, dynamic> json) {
@@ -37,21 +46,8 @@ class CharacterModel {
     thumbnail = json['thumbnail'] != null
         ? ThumbnailModel.fromJson(json['thumbnail'])
         : null;
-    resourceURI = json['resourceURI'];
-    comics =
-        json['comics'] != null ? ComicsModel.fromJson(json['comics']) : null;
     series =
         json['series'] != null ? ComicsModel.fromJson(json['series']) : null;
-    stories =
-        json['stories'] != null ? ComicsModel.fromJson(json['stories']) : null;
-    events =
-        json['events'] != null ? ComicsModel.fromJson(json['events']) : null;
-    if (json['urls'] != null) {
-      urls = <UrlsModel>[];
-      json['urls'].forEach((v) {
-        urls!.add(UrlsModel.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -63,21 +59,8 @@ class CharacterModel {
     if (thumbnail != null) {
       data['thumbnail'] = thumbnail!.toJson();
     }
-    data['resourceURI'] = resourceURI;
-    if (comics != null) {
-      data['comics'] = comics!.toJson();
-    }
     if (series != null) {
       data['series'] = series!.toJson();
-    }
-    if (stories != null) {
-      data['stories'] = stories!.toJson();
-    }
-    if (events != null) {
-      data['events'] = events!.toJson();
-    }
-    if (urls != null) {
-      data['urls'] = urls!.map((v) => v.toJson()).toList();
     }
     return data;
   }
