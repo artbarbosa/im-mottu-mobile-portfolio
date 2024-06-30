@@ -20,15 +20,42 @@ class CharacterPage extends StatefulWidget {
 class _CharacterPageState extends State<CharacterPage> {
   late IGetCharactersListBloc getCharactersListBloc;
   late ICharacterListFilterBloc characterListFilterBloc;
+  late ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
     getCharactersListBloc = Modular.get<IGetCharactersListBloc>();
     characterListFilterBloc = Modular.get<ICharacterListFilterBloc>();
+    scrollController = ScrollController();
 
+    _fetchCharacters();
+
+    scrollController.addListener(_onScroll);
+  }
+
+  Future<void> _fetchCharacters({bool isLoadMore = false}) async {
     final params = characterListFilterBloc.createFiltersParams();
-    getCharactersListBloc.getCharactersList(params: params);
+    await getCharactersListBloc.getCharactersList(
+      params: params,
+      isLoadMore: isLoadMore,
+    );
+  }
+
+  void _onScroll() {
+    if (scrollController.offset >=
+            scrollController.position.maxScrollExtent * 0.95 &&
+        getCharactersListBloc.state is SuccessState &&
+        !getCharactersListBloc.isFetching) {
+      _fetchCharacters(isLoadMore: true);
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,36 +92,40 @@ class _CharacterPageState extends State<CharacterPage> {
             },
           ),
         ],
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: SearchTextFieldWidget(
-                  characterListFilterBloc: characterListFilterBloc,
-                ),
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            SliverToBoxAdapter(
+              child: SearchTextFieldWidget(
+                characterListFilterBloc: characterListFilterBloc,
               ),
-              BlocBuilder<IGetCharactersListBloc, BaseState>(
-                bloc: getCharactersListBloc,
-                builder: (context, state) {
-                  if (state is SuccessState) {
-                    final list = state.data as List<CharacterModel>;
-                    return CharacterGridComponent(
-                      characters: list,
-                    );
-                  } else if (state is LoadingState) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is ErrorState) {
-                    return Center(child: Text(state.message));
-                  }
-                  return const SizedBox();
-                },
-              ),
-            ],
-          ),
+            ),
+            BlocBuilder<IGetCharactersListBloc, BaseState>(
+              bloc: getCharactersListBloc,
+              builder: (context, state) {
+                if (state is LoadingState) {
+                  return const SliverToBoxAdapter(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (state is ErrorState) {
+                  return SliverToBoxAdapter(
+                    child: Center(
+                      child: Text(state.message),
+                    ),
+                  );
+                }
+                List<CharacterModel> list = [];
+                if (state is SuccessState) {
+                  list = state.data as List<CharacterModel>;
+                }
+                return CharacterGridComponent(
+                  characters: list,
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

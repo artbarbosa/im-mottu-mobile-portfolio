@@ -62,7 +62,9 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
                           ),
                         ),
                       ),
-                      CharacterGridComponent(characters: characters),
+                      CharacterGridComponent(
+                        characters: characters,
+                      ),
                     ],
                   );
                 }
