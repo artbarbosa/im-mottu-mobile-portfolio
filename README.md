@@ -1,3 +1,21 @@
+# im-mottu-mobile — sanitized portfolio copy
+
+Personal implementation of a completed historical Flutter/Marvel hiring challenge, with BLoC, tests and platform integration.
+
+## Setup and scope
+
+Supply your own Marvel credentials with `--dart-define=MARVEL_PUBLIC_KEY=... --dart-define=MARVEL_PRIVATE_KEY=...`. Firebase configuration has explicit placeholders and must be regenerated for your own project. Client-side defines do not make a private key secret in a distributed binary; this is an educational client, not a production credential-storage pattern. Original challenge instructions and credits remain below.
+
+Use a Flutter/Dart version compatible with the checked-in `pubspec.yaml`; several projects require Dart 2. No SDK upgrade or passing application build is claimed by this publication.
+
+## History and provenance
+
+This new repository contains a sanitized copy of the original Git history. Original commit authors, committers and dates were preserved; affected hashes changed. The original repository stays private and unchanged. Provider credentials were removed from every retained branch before upload. This does not revoke the old credentials. No license or authorship was reassigned.
+
+Automated publication checks cover history metadata, sensitive-value removal and secret scanning. They do not establish provider availability, backend permissions, or a working build on current Flutter. Application tests not explicitly listed as run remain unverified.
+
+## Original project notes
+
 
 # 🛵 I'm Mottu Mobile 🛵
 

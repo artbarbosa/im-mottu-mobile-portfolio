@@ -5,8 +5,8 @@ class Development extends Env {
   String get baseUrlAPI => 'http://gateway.marvel.com/v1/public/';
 
   @override
-  String get publicKey => 'PORTFOLIO_REMOVED_API_KEY';
+  String get publicKey => const String.fromEnvironment('MARVEL_PUBLIC_KEY');
 
   @override
-  String get privateKey => 'PORTFOLIO_REMOVED_API_KEY';
+  String get privateKey => const String.fromEnvironment('MARVEL_PRIVATE_KEY');
 }
